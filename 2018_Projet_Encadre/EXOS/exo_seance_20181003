@@ -1,0 +1,53 @@
+#!/bin/bash
+echo "<!DOCTYPE html>" > "./TABLEAUX/system_login.html";
+echo "<html lang=\"en\">" >> "./TABLEAUX/system_login.html";
+echo "<head>" >> "./TABLEAUX/system_login.html";
+echo "<meta charset=\"utf-8\">" >> "./TABLEAUX/system_login.html";
+echo "<title>Login interfaces</title>" >> "./TABLEAUX/system_login.html";
+echo "</head>" >> "./TABLEAUX/system_login.html";
+
+echo "<body>" >> "./TABLEAUX/system_login.html";
+echo "<h1>StuInfos</h1><br/>" >> "./TABLEAUX/system_login.html";
+echo "<table border=\"1\">" >> "./TABLEAUX/system_login.html";
+echo "<caption>Webpage details</caption><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "<thead><th>Author</th><th>Time</th><th>Declaration</th></thead>" >> "./TABLEAUX/system_login.html";
+echo "<tbody><tr><td>LIANG TAO</td><td>2018/10/09</td><td>Right reserved</td></tr></tbody>" >> "./TABLEAUX/system_login.html";
+echo "</table>" >> "./TABLEAUX/system_login.html";
+
+echo "<h2>Basic Infos</h2><br/>" >> "./TABLEAUX/system_login.html";
+echo "<form name=\"StuInfos\" action=\"mailto:xyxflorent@gmail.com\" method=\"post\" target=\"_blank\" enctype=\"application/x-www-form-urlencoded\">" >> "./TABLEAUX/system_login.html";
+echo "Name		<input type=\"text\" size=\"20\" maxlength=\"20\" /><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "Age		<input type=\"test\" size=\"20\" maxlength=\"3\"/><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "Sex		<input type=\"radio\" name=\"c1\" value=\"boy\"/>Male <input type=\"radio\" name=\"c1\" value=\"girl\"/>Female<br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "Gener		<input type=\"radio\" name=\"c1\" value=\"80s\"/>80s" >> "./TABLEAUX/system_login.html";
+echo "			<input type=\"radio\" name=\"c1\" value=\"90s\"/>90s" >> "./TABLEAUX/system_login.html";
+echo "			<input type=\"radio\" name=\"c1\" value=\"00s\"/>00s" >> "./TABLEAUX/system_login.html";
+echo "			<input type=\"button\" value=\"Confirm\" onclik=\"alert\"/><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "Password	<input type=\"password\" size=\"20\" maxlength=\"15\"/>&nbsp;&nbsp;" >> "./TABLEAUX/system_login.html";
+echo "			<input type=\"image\" src=\"D:\Informatique\Html+CSS\Webwork\images\button1.png\"/><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "Hobby		<input type=\"checkbox\" id=\"c1\" checked=\"checked\"/><label for=\"c1\">Eat</label>" >> "./TABLEAUX/system_login.html";
+echo "			<input type=\"checkbox\" id=\"c2\" checked=\"checked\"/><label for=\"c2\">Drink</label>" >> "./TABLEAUX/system_login.html";
+echo "			<input type=\"checkbox\" id=\"c3\"/><label for=\"c3\">Play</label>" >> "./TABLEAUX/system_login.html";
+echo "			<input type=\"checkbox\" id=\"c4\"/><label for=\"c4\">Sleep</label><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "Photo		<input type=\"file\" value=\"browse\"/>	&nbsp;&nbsp;No file selected</label><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "Personal Statement<br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea rows=\"8\" cols=\"40\">Your CV</textarea><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "Univ		<select>" >> "./TABLEAUX/system_login.html";
+echo "			<option>ENS Ulm</option>" >> "./TABLEAUX/system_login.html";
+echo "			<option>ENS Lyon</option>" >> "./TABLEAUX/system_login.html";
+echo "			<option>PSL</option>" >> "./TABLEAUX/system_login.html";
+echo "			<option>Sorbonne-Nouvelle</option>" >> "./TABLEAUX/system_login.html";
+echo "			<option>Jiaotong University</option>" >> "./TABLEAUX/system_login.html";
+echo "			<option>Inalco</option><br/><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "</select>" >> "./TABLEAUX/system_login.html";
+echo "<input type=\"submit\" value=\"submit\"/> <input type=\"reset\" value=\"reset\"/>" >> "./TABLEAUX/system_login.html";
+echo "<br/><br/><br/><br/>"
+echo "</form>" >> "./TABLEAUX/system_login.html" ;
+
+echo "<br/><h2>Multimedias</h2><br/>" >> "./TABLEAUX/system_login.html";
+echo "<embed src=\"D:\Informatique\Html+CSS\Webwork\soundtracks\ll.mp3\" width=\"300px\" height=\"60px\" autostart=\"false\"/><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "<embed src=\"D:\Informatique\Html+CSS\Webwork\videos\cu.mp4\" width=\"400px\" height=\"300.px\" autostart=\"false\"/><br/><br/>" >> "./TABLEAUX/system_login.html";
+echo "<iframe src=\"http://web.mit.edu\" width=\"400px\" height=\"300px\" scrolling=\"yes\"></iframe>" >> "./TABLEAUX/system_login.html";
+
+echo "</body>" >> "./TABLEAUX/system_login.html" ;
+echo "</html>" >> "./TABLEAUX/system_login.html" ;
