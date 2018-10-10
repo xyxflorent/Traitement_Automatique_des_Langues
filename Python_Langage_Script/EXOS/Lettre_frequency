@@ -1,0 +1,31 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# LIANG Tao, Institut National des Langues et Civilisations Orientales
+# Homework 4 of the cours "Langage de Script (TAL)"
+# 08/10/2018
+
+# This script caculate the frequency of voyelles et consonnes
+
+from collections import Counter
+
+voyelles=["a","e","i","o","u"]
+word=input("Enter the word for checking: ")
+
+def bag_word(word):
+	global voy,con
+	voy=[]
+	con=[]
+	for i in word:
+		if i in voyelles:
+			voy.append(i)
+		else:
+			con.append(i)
+	return voy,con
+bag_word(word)
+
+def frequency():
+	res1=(Counter(voy)).most_common(len(word))
+	res2=(Counter(con)).most_common(len(word))
+	print(f"voyelles frequency: {res1}")
+	print(f"cossones frequency: {res2}")
+frequency()
