@@ -1,0 +1,59 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*
+
+from urllib.request import urlopen
+from urllib.parse import quote
+import string
+from bs4 import BeautifulSoup
+import re
+import jieba
+from collections import Counter
+
+def html_parse(filepath1,filepath2):
+	global res
+	with open(filepath1,"r",encoding="utf-8") as f1:
+		data=f1.readlines()
+		for url in data:
+			parse=quote(url,safe=string.printable)
+			html=urlopen(parse)
+			bs=BeautifulSoup(html,"lxml")
+			text=bs.get_text()
+			pattern=re.compile(u'[^\u4E00-\u9FA5]')
+			res=pattern.sub(r"", text)
+			with open(filepath2,"a+",encoding="utf-8") as f2:
+				f2.write(res)
+	return f2
+html_parse(filepath1,filepath2)
+
+def wordcut(filepath2):
+	global wordlist
+	with open(filepath2,"r",encoding="utf-8") as f:
+		data=f.read()
+	temp=jieba.cut(data, cut_all=False, HMM=True)
+	wordlist=[i for i in temp]
+	return wordlist
+wordcut(filepath2)
+
+def word_frequency():
+	word_frequency={}
+	for i in wordlist:
+		if i not in word_frequency:
+			word_frequency[i]=1
+		else:
+			word_frequency[i]+=1
+	freq=sorted(word_frequency, key=lambda x:x[1], reverse=True)
+	for i in freq:
+		print(f"{i[0]}\t\t\t{i[1]}")
+
+def word_frequency2():
+	freq=Counter(wordlist).most_common(len(wordlist))
+	for i in freq:
+		print(f"{i[0]}\t\t\t\t{i[1]}")
+word_frequency2()
+
+def tri_grams(keyword):
+	for i in wordlist:
+		index=wordlist.index(i)
+		if index <=len(wordlist)-3 and keyword in i:
+			print(f"{i}\t\t\t\t\t{wordlist[index+1]}\t\t\t\t\t{wordlist[index+2]}")
+tri_grams(keyword)
