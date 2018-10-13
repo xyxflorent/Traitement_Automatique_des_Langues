@@ -1,0 +1,35 @@
+#!/bin/bash
+# bash projet_mot1.sh file_url file_html
+
+echo "<!DOCTYPE html>" > $2
+echo "<html lan=\"fr\">" >> $2
+echo "<head><meta charset=\"utf-8\"><title>OK</title></head>" >> $2
+echo "<body>" >> $2
+echo "<table border=\"1\">" >> $2
+
+
+counter=1
+for line in $($1)
+	do
+		echo "<tr>" >> $2
+		echo "<td>$counter</td>" >> $2
+		echo "<td><a href=\"$line\" target=\"_blank\">$line</a></td>" >> $2
+		
+	for  ((i=1; i<=counter; i++))
+		do 
+		
+		if [ $counter == $i ]
+			then
+			curl -o $i.txt $line
+			echo "<td><a href=\"$i.txt\" target=\"_blank\">$i.txt</a></td>" >> $2
+		fi
+		
+		done
+		
+	echo "</tr>" >> $2
+	counter=$((counter+1))
+	done
+
+echo "</table>" >> $2
+echo "</body>" >> $2
+echo "</html>" >> $2
