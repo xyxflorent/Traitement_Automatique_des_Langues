@@ -5,7 +5,7 @@
 lynx -dump $1 > $2
 egrep " +[0-9]+\. https.+$" $2 | cut -d"=" -f2 | cut -d"&" -f1 | egrep "^https.+$" > $3
 python '$4' > $5
-tr " " "\n" < $5 | sort -fg | uniq -ci | uniq -c | sort -rg > $6;
+tr " " "\n" < $5 | sort -fg | uniq -ic | uniq -c | sort -rg > $6;
 tail -n +2 $6 > $7;
 tail -n +3 $6 > $8;
 paste $5 $6 $7 > $9;
