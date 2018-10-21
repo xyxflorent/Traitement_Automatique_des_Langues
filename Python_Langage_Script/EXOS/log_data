@@ -1,0 +1,84 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*
+
+import matplotlib.pyplot as plt
+
+def num_loge(filepath):
+	'''
+	caculate the number of the funding house in each district
+	arg: path of the csv file
+	return: numbers of funding houses 
+	'''
+	global arro_year
+	arro_nums=[]
+	dico={}
+	arro_year=[]
+
+	with open(filepath,"r",encoding="utf-8") as f:
+		for line in f:
+			year=line.split(";")[1]
+			arro=line.split(";")[10]
+			arro_nums.append(arro)
+			arro_year.append((arro,year))	# list containing [arro,year]
+
+	del arro_nums[0]
+
+	for i in arro_nums:
+		if i not in dico:
+			dico[i]=1
+		else:
+			dico[i]+=1
+	res=sorted(dico.items(), key=lambda x:x[1], reverse=True)
+
+	return res
+print(num_loge(filepath))
+
+
+def evolution_5_years():
+	'''
+	caculate the evolution figures for the 5 districts who got most fundings
+	return csv file
+	'''
+	global dic1
+	dic1={}
+	del arro_year[0]	# delete the header of the table
+	
+	for i in arro_year:
+		dic1.setdefault(i[0],[]).append(i[1]) 	# dict containing {arro:[y1,y2,y3....y16]}
+	for key,value in dic1.items():
+		print(key,value.count("2016"),value.count("2015"),value.count("2014"),value.count("2013"),value.count("2012"))
+
+evolution_5_years()
+
+
+def evolution_all():
+	'''
+	caculate the evolution figures for all the years and all the districts
+	output: graphe
+	'''
+	dic2={}
+	l=[]
+
+	for key,value in dic1.items():
+		value=list(map(eval,value))		# transform str(year) to int(year)
+		for i in range(2001,2017):
+			res=(key,value.count(i))
+			l.append(res)		# list contains [year, numbers of houses]
+
+	for i in l:
+		dic2.setdefault(i[0],[]).append(i[1]) 	# dic containing {arro:[n1,n2...n16]}
+	del dic2['régularisation sur agrément antérieur"']
+	del dic2['projet abandonné refinancé"'] 	# delete irregular data
+
+	y_paras=list(dic2.values())
+	x=list(range(2001,2017))
+
+	for i in y_paras:
+		plt.plot(x,i)
+
+	plt.title("Evolution of Public funded Houses in Paris",fontsize=16)
+	plt.xlabel("Years(after 2001)",fontsize=10)
+	plt.ylabel("Number of Houses",fontsize=10)
+	plt.show()
+
+evolution_all()
