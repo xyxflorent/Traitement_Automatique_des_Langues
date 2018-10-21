@@ -1,0 +1,38 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+from random import randint
+
+token_pron=[]
+dico1={}
+
+def list_token_pron(file):
+    with open (file,"r",encoding="utf-8") as f:
+        for line in f:
+            tokens,prons,*x=line.split("\t")
+            token_pron.append((tokens,prons))
+    return token_pron
+list_token_pron()
+
+
+def dico_rim_token(n=4):
+    for i in token_pron:
+        if len(i[1])>=n:
+            rim=i[1][-n:]
+            dico1.setdefault(rim,[]).append(i[0])
+    return dico1
+
+dico_rim_token()
+
+
+def search_rim(n=4):
+    word=input("Enter a word for cheking: ")
+    for i in token_pron:
+        if word==i[0]:
+            rim=i[1][-n:]
+    if rim in dico1:
+        res=dico1[rim]
+        res.remove(word)
+    index=randint(0,len(res)-1)
+    print(res[index])
+search_rim()
