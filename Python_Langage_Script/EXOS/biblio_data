@@ -1,0 +1,25 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+def num_genres(filepath):
+	'''
+	caculate the numbers of consultation for each genre
+	arg: path of scv file
+	return: list of consultation numbers
+	'''
+	types=[]
+	dico={}
+	with open(filepath,"r",encoding="utf-8") as f:
+		for line in f:
+			type_doc=line.split(";")[1]
+			types.append(type_doc)
+	del types[0]
+
+	for i in types:
+		if i not in dico:
+			dico[i]=1
+		else:
+			dico[i]+=1
+	res=sorted(dico.items(), key=lambda x:x[1], reverse=True)
+
+	return res
