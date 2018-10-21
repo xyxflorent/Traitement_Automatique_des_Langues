@@ -1,0 +1,16 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+def extract(file):
+    with open(file,"r",encoding="utf-8") as f:
+        data=f.read().split(" ")
+        wordlist=[i for i in data if i.isalpha()]
+    return wordlist
+extract()
+
+def common():
+    l1=extract(r"balzac.txt")
+    l2=extract(r"paris.txt")
+    res=[i for i in l1 if i in l2]
+    return set(res)
+    
