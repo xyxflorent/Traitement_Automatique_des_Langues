@@ -1,0 +1,111 @@
+#! bin/bash
+# test.sh
+# url="https://www.google.fr/search?hl=fr&as_q=&as_epq=Baudelaire&num=1000&as_oq=&as_eq=&as_nlo=&as_nhi=&lr=lang_fr&cr=countryFR&as_qdr=all&as_sitesearch=&as_occt=any&safe=images&as_filetype=&as_rights=%28cc_publicdomain%7Ccc_attribute%7Ccc_sharealike%7Ccc_noncommercial%7Ccc_nonderived%29"
+
+url_dump()
+{
+	echo -e "\e[1;33mPlease specify the url: \e[0m"
+	read url
+	echo -e "\e[1;32mProcessing...\e[0m"
+	start=`date "+%s"`
+	lynx -dump $url > url_dump.txt
+	end=`date "+%s"`
+	let time=end-start
+	echo -e "\e[1;32mDone! The process took $time seconds.\e[0m"
+}
+
+
+corpus_generation()
+{
+	echo -e "\e[1;33mPlease specify the url: \e[0m"
+	read url
+	echo -e "\e[1;32mProcessing...\e[0m"
+	start=`date "+%s"`
+	url_list=`lynx -dump -listonly $url | cut -d"=" -f2 | egrep -o "^http.*$" | cut -d"&" -f1`
+	for line in $url_list
+	{
+		http_code=`curl -o temp.txt -w "%{http_code}" $line`
+		if [[ http_code -eq 200 ]]
+		then
+			lynx -dump -nolist $line > corpus.txt
+		fi
+	}
+	end=`date "+%s"`
+	let time=end-start
+	echo -e "\e[1;32mDone! The process took $time seconds.\e[0m"
+}
+
+text_tokenization()
+{
+	echo -e "\e[1;33mPlease specify the filepath of corpus: \e[0m"
+	read file
+	echo -e "\e[1;32mProcessing...\e[0m"
+	start=`date "+%s"`
+	cat $file | tr " " "\n" | sed -r "s/([[:punct:]])/\n\1\n/g" | tr -s "\n" | tr [[:upper:]] [[:lower:]] | tee tokens.txt
+	end=`date "+%s"`
+	let time=end-start
+	echo -e "\e[1;32mDone! The process took $time seconds.\e[0m"
+}
+
+lexical_frequency()
+{
+	echo -e "\e[1;33mPlease specify the filepath of tokens: \e[0m"
+	read file
+	echo -e "\e[1;32mProcessing...\e[0m"
+	start=`date "+%s"`
+	cat $file | sort | uniq -ic | sort -fgr > frq.txt
+	end=`date "+%s"`
+	let time=end-start
+	echo -e "\e[1;32mDone! The process took $time seconds.\e[0m"
+
+}
+
+tri_gramms()
+{
+	echo -e "\e[1;33mPlease specify the filepath of tokens: \e[0m"
+	read file
+	echo -e "\e[1;33mPlease specify the keyword: \e[0m"
+	read keyword
+	echo -e "\e[1;32mProcessing...\e[0m"
+	start=`date "+%s"`
+	egrep "[[:alpha:]]" $file >1
+	egrep "[[:alpha:]]" $file | tail -n +2 >2
+	egrep "[[:alpha:]]" $file | tail -n +3 >3
+	paste 1 2 3 | egrep $keyword
+	end=`date "+%s"`
+	let time=end-start
+	echo -e "\e[1;32mDone! The process took $time seconds.\e[0m"
+}
+
+text_annotation()
+{
+	echo -e "\e[1;33mPlease specify the filepath of tokens: \e[0m"
+	read file
+	echo -e "\e[1;32mProcessing...\e[0m]"
+	start=`date "+%s"`
+	cat $file | tree-tagger-french -token -lemma
+}
+
+
+	while True
+	do
+		echo -e "\e[1;31mHello, tell me what you want?\e[0m"
+		echo -e "\e[1;34mPlease choose from the menu below:
+			a) url dump
+			b) corpus generation
+			c) text tokenization
+			d) lexical frequency
+			e) trigrams
+			f) text annotation
+			g) leave the application\e[0m"
+		read response
+		case $response in
+			a) url_dump ;;
+			b) corpus_generation ;;
+			c) text_tokenization ;;
+			d) lexical_frequency ;;
+			e) tri_gramms ;;
+			f) text_annotation ;;
+			g) break ;;
+		esac
+	done
