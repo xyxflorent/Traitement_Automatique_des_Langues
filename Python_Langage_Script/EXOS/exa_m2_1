@@ -1,0 +1,60 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import re
+
+dico1=dict()
+dico2=dict()
+dico3=dict()
+y81_91=list()
+names=list()
+
+def load_data(filepath):
+	with open(filepath,"r",encoding="utf-8") as f:
+		for line in f:
+			line=line.rstrip().split("\t")
+			name=line[0]
+			y91=line[-1]
+			y81=line[-2]
+			if name not in ["NOM","AUTRES NOMS"]:
+				names.append(name)
+				dico1[name]=int(y91)
+				dico2[name]=int(y91)-int(y81)
+				y81_91.append((int(y81),int(y91)))
+				if int(y81)>0:
+					dico3[name]=int(y91)-int(y81)
+	return dico1, y81_91
+load_data("noms2008nat_txt.txt")
+
+def most_born():
+	return sorted(dico1.items(),key=lambda x:x[1],reverse=True)[0][0]
+
+def augmentation1():
+	return sorted(dico2.items(),key=lambda x:x[1],reverse=True)[0][0]
+
+def augmentation2():
+	return sorted(dico3.items(),key=lambda x:x[1],reverse=True)[0][0]
+
+def composition():
+	return len([i for i in names if len(re.split(r"[-\s]",i))>1])
+
+def same():
+	return len([i for i in names if i[0]==i[-1]])
+
+def main():
+	plus_de_naissance=most_born()
+	print(f"Le nom pour lequel le plus de naissances ont été relevées sur la période 1991–2000 est {plus_de_naissance}.\n")
+
+	augment_abso=augmentation1()
+	print(f"Le nom qui a connu la plus forte augmentation absolue des naissances entre les périodes 1981—1990 et 1991–2000 est {augment_abso}.\n")
+
+	augment_rela=augmentation2()
+	print(f"Le nom qui a connu la plus forte augmentation relative des naissances entre les périodes 1981—1990 et 1991–2000 est {augment_rela}.\n")
+
+	nom_compose=composition()
+	print(f"Dans le fichier, ii y a {nom_compose} noms composés.\n")
+
+	head_tail=same()
+	print(f"Parmis les noms présents dans ce fichier, il y a {head_tail} noms commencent et terminent par la même lettre")
+
+if __name__ == "__main__":
+	main()
