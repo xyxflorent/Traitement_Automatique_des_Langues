@@ -1,0 +1,86 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import pickle
+import re
+from collections import Counter
+
+def get_wordlist(filepath):
+	'''
+	1. read the pickle file;
+	2. delete the regular puctuations;
+	3. form a wordlist of sms-tokens, with lettre case insensitive.
+	'''
+	global wordlist
+	temp=[]
+	with open(filepath, 'rb') as f:
+		data=list(pickle.load(f))
+	for sms in data:
+		sms=re.split(r"[\s!?,.;()_\[\]]",sms)
+		for word in sms:
+			temp.append(word)
+	wordlist=[i.lower() for i in temp if i.isalpha()]
+	return wordlist
+get_wordlist("pickle_sms.pickle")
+
+def len_word(n):
+	'''
+	extract a wordlist with n-letter-word.
+	'''
+	return [i for i in wordlist if len(i)==n]
+
+def word_voyelle(n):
+	'''
+	extract a wordlist with n-vowel-letter-word.
+	'''
+	return [i for i in wordlist if len(re.findall(r"[aeiou]",i))<=n]
+
+def get_lexique(filepath):
+	'''
+	from the file "lexique française" extract a list of tokens.
+	'''
+	global tokens
+	tokens=[]
+	with open(filepath,"r",encoding="utf-8") as f:
+		for line in f:
+			token=line.rstrip().split()[0]
+			tokens.append(token)
+	return tokens
+get_lexique("Lexique382.txt")
+
+def identification():
+	'''
+	1. find the short expressions in sms wordlist but not in french lexique;
+	2. calculate the frequency of the short expressions;
+	3. if frq > 2, we'd like to consider them as sms abrevations;
+	4. else, we'd like to consider them as type errors;
+	'''
+	irregular_short_words=[i for i in list(set(wordlist)) if i not in tokens and len(i)<=4]
+	freq=Counter(irregular_short_words).most_common(len(irregular_short_words))
+	candidate_abrevation=[i[0] for i in freq if i[1]<=2 ]
+	candidate_typo=[i[0] for i in freq if i[1]>2]
+	return candidate_abrevation, candidate_typo
+
+def distinction():
+	'''
+	the short_right_word in sms wordlist
+	'''
+	candidate_abrevation,xx=identification()
+	candidate_short_word=[i for i in list(set(wordlist)) if i in tokens and i not in candidate_abrevation and len(i)<4]
+	return candidate_short_word
+
+def main():
+	numbers_of_letters=input("Extract a wordlist of n-letter word, n=? : ")
+	len_word(numbers_of_letters)
+
+	numbers_of_voyelles=input("Extract a wordlist of n-vowel-letter word, n=? : ")
+	word_voyelle(numbers_of_voyelles)
+
+	print("The possible possible abrevation expressions and the possible typeo errors are listed below: ")
+	identification()
+
+	print("The short words in sms file are listed below: ")
+	candidate_short_word()
+
+
+if __name__ == '__main__':
+    main()
