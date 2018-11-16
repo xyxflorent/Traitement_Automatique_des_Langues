@@ -1,0 +1,50 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import time
+import sys
+
+class Worrior():
+	def __init__(self,name,blood,energy):
+		self.name=name
+		self.blood=blood
+		self.energy=energy
+		is_alive=True
+
+	def fight(self):
+		self.energy-=1
+		print(f"{self.name}'s energy is {self.energy}")
+
+	def hit(self):
+		self.blood-=1
+		print(f"{self.name}'sblood is {self.blood}")
+		if self.blood>0:
+			is_alive=True
+		else:
+			is_alive=False
+			print(f"{self.name}'s loose")
+			sys.exit()
+
+		if self.blood<=3 and self.energy>0:
+			decision=input(f"{self.name}'s dying, want a recharge? Y  or N")
+			if decision=="Y":
+				self.blood+=5
+				self.energy-=2
+				print(f"{self.name}'ve recharged! lef {self.energy}.")
+			else:
+				pass
+		if self.energy<1:
+			print(f"energy down, {self.name} could no more recharge!")
+
+w1=Worrior("Alain",10,10)
+w2=Worrior("Henri",15,20)
+
+while 1:
+	w1.fight()
+	time.sleep(1)
+	w2.hit()
+	time.sleep(1)
+	w2.fight()
+	time.sleep(1)
+	w1.hit()
+	time.sleep(1)
