@@ -1,0 +1,45 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import re
+from collections import Counter
+
+POS=[]		# define an empty list to conserve the extracted tags
+
+def extraction_POS(filepath):	# extraction of tags from text file
+	l=[]
+	with open(filepath) as f:
+		data=f.readlines()
+		data.remove("\n")		# delete the empty line
+	for i in data:
+		if "\t" in i:
+			temp1=re.search(r"\t.+\t", i).group()	# specify the tags
+			l.append(temp1)
+	for i in l:
+		temp2=re.search(r"[A-Z]+",i).group()	# delete the "\t"
+		POS.append(temp2)
+	return POS
+
+extraction_POS(r"C:\Users\xyxfl\OneDrive\Bureau\sem_Ef9POe.conll")
+
+
+def frequency_POS1():	# first way to caculate the frequency
+	frq=(Counter(POS)).most_common(50)
+	for i in frq:
+		print(i)
+	
+frequency_POS1()
+
+
+def frequency_POS2():	# second way to caculate the frequency
+	freq={}
+	for i in POS:
+		if i not in freq:
+			freq[i]=1
+		else:
+			freq[i]+=1
+	res=sorted(freq.items(), key=lambda x:x[1], reverse=True)	# sort the dict according to the values
+	for i in res:
+		print(f"{i[0]}\t\t\t{i[1]}")	# standard output
+
+frequency_POS2()
