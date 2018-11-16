@@ -1,0 +1,50 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+from collections import Counter
+dico1=dict()
+dico2=dict()
+cn1=Counter()
+cn2=Counter()
+def load_data(filepath):
+	with open(filepath,"r",encoding="utf-8") as f:
+		for line in f:
+			line=line.rstrip().split("\t")
+			name=line[0]
+			dep=line[1]
+			y91=line[-1]
+			if name not in ["NOM","AUTRES NOMS"]:
+				if dep=="XX":
+					dico2[name]=int(y91)
+				else:
+					dico1[name]=int(y91)
+					cn1[dep]+=1
+					cn2[dep]+=int(y91)
+load_data("noms2008dep_txt.txt")
+
+def most_born_bre():
+	return sorted(dico1.items(),key=lambda x:x[1],reverse=True)[0][0]
+
+def most_born_out():
+	return sorted(dico2.items(),key=lambda x:x[1],reverse=True)[0][0]
+
+def name_diff():
+	return cn1.most_common(1)[0][0]
+
+def born_91():
+	return cn2.most_common(1)[0][0]
+
+def main():
+	nom_bre=most_born_bre()
+	print(f"Le nom pour lequel le plus de naissances ont été relevées sur la période 1991–2000 en Bretagne est {nom_bre}.\n")
+
+	nom_out=most_born_out()
+	print(f"Le nom pour lequel le plus de naissances ont été relevées sur la période 1991–2000 hors de la Bretagne est {nom_out}.\n")
+
+	nom_diff=name_diff()
+	print(f"le département avec le plus de noms différents est {nom_diff}.\n")
+
+	plus_naissance=born_91()
+	print(f"le département {plus_naissance} a eu le plus de naissance sur la période 1991–2000.\n")
+
+if __name__ == "__main__":
+	main()
