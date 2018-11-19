@@ -1,0 +1,83 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import re
+from collections import Counter
+
+cn1=Counter()
+cn2=Counter()
+dico1=dict()
+dico2=dict()
+names=list()
+cn3=Counter()
+
+def load_data(file):
+	with open(file,'r',encoding='utf-8') as f:
+		for line in f:
+			line=line.rstrip().split(";")
+			civil=line[2]
+			if civil=="M.":
+				cn1["M."]+=1
+			if civil=="Mme":
+				cn2["Mme"]+=1
+			year=line[0][-4:]
+			if year!="ture" and int(year)<=1995:
+				if civil=="M.":
+					dico1.setdefault(int(year),[]).append(civil)
+				if civil=="Mme":
+					dico2.setdefault(int(year),[]).append(civil)
+			name=line[3]+" "+line[4]
+			names.append(name)
+			if name!="prenom nom":
+				cn3[name]+=1
+					
+load_data('les-conseillers-de-paris-de-1977-a-2014.csv')
+
+def num_total():
+	return cn1.most_common(1)[0][1]+cn2.most_common(1)[0][1]
+num_total()
+
+def num_male():
+	return cn1.most_common(1)[0][1]
+num_male()
+
+def num_female():
+	return cn2.most_common(1)[0][1]
+num_female()
+
+def num_male_1995():
+	return len(dico1[1983])+len(dico1[1989])+len(dico1[1995])
+
+def num_female_1995():
+	return len(dico2[1983])+len(dico1[1989])+len(dico1[1995])
+
+def nom_particule():
+	return [i for i in names if "(d" in i]
+
+def mandat(n):
+	return len([i for i in cn3.most_common(len(cn3)) if i[1]==n])
+
+def main():
+	print(f"Il y a  {num_total()} conseillers et conseillères dans ce fichier.\n")
+
+	print(f"Il y a  {num_male()} conseillers dans ce fichier.\n")
+
+	print(f"Il y a {num_female()} conseillères dans ce fichier.\n")
+
+	print(f"Il y a {num_male_1995()} conseillers avant 1995 dans ce fichier.\n")
+
+	print(f"Il y a {num_female_1995()} conseillères avant 1995 dans ce fichier.\n")
+
+	print(f"Les conseillers dont le nom à particule:\n{nom_particule()}\n")
+
+	print(f"Il y a {mandat(1)} conseillers ayant eu 1 mandat.\n")
+	print(f"Il y a {mandat(2)} conseillers ayant eu 1 mandat.\n")
+	print(f"Il y a {mandat(3)} conseillers ayant eu 1 mandat.\n")
+	print(f"Il y a {mandat(4)} conseillers ayant eu 1 mandat.\n")
+	print(f"Il y a {mandat(5)} conseillers ayant eu 1 mandat.\n")
+	print(f"Il y a {mandat(6)} conseillers ayant eu 1 mandat.\n")
+
+if __name__ == '__main__':
+	main()
+
+
+
