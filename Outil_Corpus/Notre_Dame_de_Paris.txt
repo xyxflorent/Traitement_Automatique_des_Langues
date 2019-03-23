@@ -1,0 +1,14 @@
+Title: Notre Dame de Paris
+
+Taille: 211,327 tokens
+
+Annotation: Format TXT, niveau morpho-grammatical(POS,Token,Lemme), Annoté avec TreeTagger
+
+Statut de Doc: publié par Project Gutenberg EBook
+
+Stratégie d'échantillonage: Project Gutenberg EBook, et Annotation par l'auteur du présent doc
+
+Modalité: écrit
+
+Licence: text: Distribué sous licence délivrée par www.gutenberg.org
+		 annotation: libre de droit

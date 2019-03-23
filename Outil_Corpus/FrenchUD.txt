@@ -1,0 +1,13 @@
+Title: Dépendances Universelle - Données Français
+
+Taille: 402,426 words (16,448 sentences)
+
+Annotation: Format Conllu, niveau morpho-sybtaxique(POS,Token,Lemme,Gov...), Annoté avec Stanford dependencies
+
+Statut de Doc: Universal Dependencies Consortium, Project code: 15-10472S
+
+Stratégie d'échantillonage: Project code: 15-10472S, Morphologically and Syntactically Annotated Corpora of Many Languages
+
+Modalité: écrit
+
+Licence: Distribué sous licence délivrée par Universal Dependencies Consortium
